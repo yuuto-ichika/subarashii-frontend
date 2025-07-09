@@ -1,0 +1,385 @@
+{
+    "label": "Settings",
+    "tooltip": "Configure Sugoi Toolkit",
+    "type": "category",
+    "children": [
+        {
+            "label": "Translation API Server Settings",
+            "tooltip": "Configure Translation API Servers",
+            "type": "tabbed",
+            "specialPostGenerationBehavior": "selectCurrentTranslator",
+            "children": {
+                "Offline": [
+                    {
+                        "type": "integer",
+                        "settingsPath": "Translation_API_Server.Offline.HTTP_port_number",
+                        "label": "HTTP Server Port Number",
+                        "range": [
+                            1025,
+                            65535
+                        ],
+                        "default": 14366,
+                        "tooltip": "Port number for the Offline Translation API Server."
+                    },
+                    {
+                        "type": "text",
+                        "settingsPath": "Translation_API_Server.Offline.initialPhrase",
+                        "label": "Initial Phrase",
+                        "default": "おつかれさまでして",
+                        "tooltip": "Initial phrase for translation processing. Currently unused."
+                    },
+                    {
+                        "type": "select",
+                        "settingsPath": "Translation_API_Server.Offline.device",
+                        "label": "Device",
+                        "options": [
+                            "cpu",
+                            "cuda"
+                        ],
+                        "default": "cpu",
+                        "specialPreSubmitBehavior": "cudaCheck",
+                        "tooltip": "Select the device for translation processing."
+                    },
+                    {
+                        "type": "integer",
+                        "settingsPath": "Translation_API_Server.Offline.intra_threads",
+                        "label": "Intra Threads",
+                        "range": [
+                            0,
+                            16
+                        ],
+                        "default": 0,
+                        "tooltip": "Total threads (intra * inter) should not exceed the number of physical cores."
+                    },
+                    {
+                        "type": "integer",
+                        "settingsPath": "Translation_API_Server.Offline.inter_threads",
+                        "label": "Inter Threads",
+                        "range": [
+                            0,
+                            16
+                        ],
+                        "default": 4,
+                        "tooltip": "Total threads (intra * inter) should not exceed the number of physical cores."
+                    },
+                    {
+                        "type": "integer",
+                        "settingsPath": "Translation_API_Server.Offline.beam_size",
+                        "label": "Beam Size",
+                        "range": [
+                            1,
+                            10
+                        ],
+                        "default": 5,
+                        "tooltip": "Beam size for translation processing."
+                    },
+                    {
+                        "type": "integer",
+                        "settingsPath": "Translation_API_Server.Offline.repetition_penalty",
+                        "label": "Repetition Penalty",
+                        "range": [
+                            1,
+                            10
+                        ],
+                        "default": 3,
+                        "tooltip": "Penalty applied to the score of previously generated tokens (set > 1 to penalize)"
+                    },
+                    {
+                        "type": "boolean",
+                        "settingsPath": "Translation_API_Server.Offline.silent",
+                        "label": "Silent Mode",
+                        "default": false,
+                        "tooltip": "Enable silent mode for the Offline Translation API Server. Currently unused."
+                    },
+                    {
+                        "type": "boolean",
+                        "settingsPath": "Translation_API_Server.Offline.disable_unk",
+                        "label": "Disable UNK Tokens",
+                        "default": true,
+                        "tooltip": "Disable generation of 'unknown' tokens."
+                    }
+                ],
+                "Google": [
+                    {
+                        "type": "integer",
+                        "settingsPath": "Translation_API_Server.Google.HTTP_port_number",
+                        "label": "HTTP Server Port Number",
+                        "range": [
+                            1025,
+                            65535
+                        ],
+                        "default": 14367,
+                        "tooltip": "Port number for the Google Translation API Server."
+                    },
+                    {
+                        "type": "select",
+                        "settingsPath": "Translation_API_Server.Google.input_language",
+                        "label": "Input Language",
+                        "options": [
+                            "English",
+                            "Chinese",
+                            "Japanese",
+                            "Korean",
+                            "Spanish",
+                            "French",
+                            "Portuguese",
+                            "Vietnamese",
+                            "Indonesian",
+                            "Arabic",
+                            "Thai",
+                            "Turkish"
+                        ],
+                        "default": "Japanese",
+                        "tooltip": "Language of the input text."
+                    },
+                    {
+                        "type": "select",
+                        "settingsPath": "Translation_API_Server.Google.output_language",
+                        "label": "Output Language",
+                        "options": [
+                            "English",
+                            "Chinese",
+                            "Japanese",
+                            "Korean",
+                            "Spanish",
+                            "French",
+                            "Portuguese",
+                            "Vietnamese",
+                            "Indonesian",
+                            "Arabic",
+                            "Thai",
+                            "Turkish"
+                        ],
+                        "default": "English",
+                        "tooltip": "Language of the output text."
+                    }
+                ],
+                "LLM": [
+                    {
+                        "type": "integer",
+                        "settingsPath": "Translation_API_Server.LLM.HTTP_port_number",
+                        "label": "HTTP Server Port Number",
+                        "range": [
+                            1025,
+                            65535
+                        ],
+                        "default": 14468,
+                        "tooltip": "Port number for the LLM Translation API Server."
+                    },
+                    {
+                        "type": "text",
+                        "settingsPath": "Translation_API_Server.LLM.model_name",
+                        "label": "Model Name",
+                        "default": "openai/gpt-4o-mini",
+                        "tooltip": "Name of the model to use for translation. If model name contains 'ollama', 'lm_studio', or 'oobabooga', it will be treated as a local model."
+                    },
+                    {
+                        "type": "text",
+                        "settingsPath": "Translation_API_Server.LLM.api_server",
+                        "label": "API Server URL",
+                        "default": "http://localhost:5000",
+                        "tooltip": "URL of the API server."
+                    },
+                    {
+                        "type": "text",
+                        "settingsPath": "Translation_API_Server.LLM.api_key",
+                        "label": "API Key",
+                        "default": "",
+                        "tooltip": "API key for the translation service."
+                    },
+                    {
+                        "type": "longtext",
+                        "settingsPath": "Translation_API_Server.LLM.system_prompt",
+                        "label": "System Prompt",
+                        "default": "You are a professional translator whose primary goal is to precisely translate {input_language} to {output_language}. You can speak colloquially if it makes the translation more accurate. Only respond in {output_language}. If you are unsure of a {input_language} sentence, still always try your best estimate to respond with a complete {output_language} translation.",
+                        "tooltip": "Prompt to guide the behavior of the LLM."
+                    },
+                    {
+                        "type": "integer",
+                        "settingsPath": "Translation_API_Server.LLM.context_lines",
+                        "label": "Context Lines",
+                        "range": [
+                            0,
+                            100
+                        ],
+                        "default": 50,
+                        "tooltip": "Number of context lines to use for translation."
+                    },
+                    {
+                        "type": "number",
+                        "settingsPath": "Translation_API_Server.LLM.temperature",
+                        "label": "Temperature",
+                        "range": [
+                            0,
+                            2
+                        ],
+                        "default": 0.4,
+                        "tooltip": "Temperature for the LLM. Higher values make the output more random. Lower values are recommended for translation tasks."
+                    },
+                    {
+                        "type": "number",
+                        "settingsPath": "Translation_API_Server.LLM.top_p",
+                        "label": "Top P",
+                        "range": [
+                            0,
+                            1
+                        ],
+                        "default": 0.95,
+                        "tooltip": "Top P value for the LLM. Higher values make the output include less probable tokens."
+                    },
+                    {
+                        "type": "select",
+                        "settingsPath": "Translation_API_Server.LLM.input_language",
+                        "label": "Input Language",
+                        "options": [
+                            "English",
+                            "Chinese",
+                            "Japanese",
+                            "Korean",
+                            "Spanish",
+                            "French",
+                            "Portuguese",
+                            "Vietnamese",
+                            "Indonesian",
+                            "Arabic",
+                            "German"
+                        ],
+                        "default": "Japanese",
+                        "tooltip": "Language of the input text."
+                    },
+                    {
+                        "type": "select",
+                        "settingsPath": "Translation_API_Server.LLM.output_language",
+                        "label": "Output Language",
+                        "options": [
+                            "English",
+                            "Chinese",
+                            "Japanese",
+                            "Korean",
+                            "Spanish",
+                            "French",
+                            "Portuguese",
+                            "Vietnamese",
+                            "Indonesian",
+                            "Arabic",
+                            "German"
+                        ],
+                        "default": "English",
+                        "tooltip": "Language of the output text."
+                    }
+                ],
+                "DeepL": [
+                    {
+                        "type": "integer",
+                        "settingsPath": "Translation_API_Server.DeepL.HTTP_port_number",
+                        "label": "HTTP Server Port Number",
+                        "range": [
+                            1025,
+                            65535
+                        ],
+                        "default": 14369,
+                        "tooltip": "Port number for the DeepL Translation API Server."
+                    },
+                    {
+                        "type": "boolean",
+                        "settingsPath": "Translation_API_Server.DeepL.hideBrowserWindowTrueOrFalse",
+                        "label": "Hide Browser Window",
+                        "default": false,
+                        "tooltip": "Whether to hide the browser window when using the DeepL API."
+                    },
+                    {
+                        "type": "integer",
+                        "settingsPath": "Translation_API_Server.DeepL.DefaultNavigationTimeout",
+                        "label": "Default Navigation Timeout (ms)",
+                        "range": [
+                            1000,
+                            60000
+                        ],
+                        "default": 30000,
+                        "tooltip": "Default timeout for navigation in milliseconds."
+                    },
+                    {
+                        "type": "select",
+                        "settingsPath": "Translation_API_Server.DeepL.input_language",
+                        "label": "Input Language",
+                        "options": [
+                            "English",
+                            "Chinese",
+                            "Japanese",
+                            "Korean",
+                            "Spanish",
+                            "French",
+                            "Portuguese",
+                            "Indonesian",
+                            "Arabic",
+                            "Turkish"
+                        ],
+                        "default": "Japanese",
+                        "tooltip": "Language of the input text."
+                    },
+                    {
+                        "type": "select",
+                        "settingsPath": "Translation_API_Server.DeepL.output_language",
+                        "label": "Output Language",
+                        "options": [
+                            "English",
+                            "Chinese",
+                            "Japanese",
+                            "Korean",
+                            "Spanish",
+                            "French",
+                            "Portuguese",
+                            "Indonesian",
+                            "Arabic",
+                            "Turkish"
+                        ],
+                        "default": "English",
+                        "tooltip": "Language of the output text."
+                    },
+                    {
+                        "type": "text",
+                        "settingsPath": "Translation_API_Server.DeepL.websiteURL",
+                        "label": "Website URL",
+                        "default": "https://www.deepl.com/en/translator#",
+                        "tooltip": "URL of the DeepL website."
+                    },
+                    {
+                        "type": "text",
+                        "settingsPath": "Translation_API_Server.DeepL.languageSeparator",
+                        "label": "Language Separator",
+                        "default": "/",
+                        "tooltip": "Separator for languages in the DeepL API."
+                    },
+                    {
+                        "type": "text",
+                        "settingsPath": "Translation_API_Server.DeepL.inputTextSeparator",
+                        "label": "Input Text Separator",
+                        "default": "/",
+                        "tooltip": "Separator for input text in the DeepL API."
+                    },
+                    {
+                        "type": "text",
+                        "settingsPath": "Translation_API_Server.DeepL.inputTextboxID",
+                        "label": "Input Textbox ID",
+                        "default": "[data-testid=translator-source-input]",
+                        "tooltip": "ID of the input textbox in the DeepL API."
+                    },
+                    {
+                        "type": "text",
+                        "settingsPath": "Translation_API_Server.DeepL.resultTextboxID",
+                        "label": "Result Textbox ID",
+                        "default": "[data-testid=translator-target-input]",
+                        "tooltip": "ID of the result textbox in the DeepL API."
+                    },
+                    {
+                        "type": "text",
+                        "settingsPath": "Translation_API_Server.DeepL.initialPhrase",
+                        "label": "Initial Phrase",
+                        "default": "DeepL",
+                        "tooltip": "Initial phrase for translation processing."
+                    }
+                ]
+            }
+        }
+    ]
+}

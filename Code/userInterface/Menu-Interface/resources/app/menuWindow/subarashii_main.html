@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="subarashii_main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div id="configuration-container">
+    </div>
+    <div id="options-container">
+        
+    </div>
+    <iframe id="sugoi-news" src="https://blog.sugoitoolkit.com/" title="sugoi announcements page"></iframe>
+    <div id="console-tabs">
+        <select name="process" id="console-selector">
+            <option value="all">--No processes active--</option>
+        </select>
+        <button id = "kill-program" class="console-button fa fa-close" disabled> Kill</button>
+        <button id = "copy-log" class="console-button fa fa-clone"> Copy to Clipboard</button>
+        <input type="checkbox" name="Only Show Errors" id="console-filter-error-toggle">
+        <label for="console-filter-error-toggle">Only Show Errors</label>
+    </div>
+    <div id="console-view">
+
+    </div>
+    <input id="console-input" value = "Select a process to enable input." disabled>
+
+    <script src="subarashii_main.js"></script>
+</body>
+
+</html>
