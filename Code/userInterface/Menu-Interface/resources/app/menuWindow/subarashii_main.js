@@ -811,3 +811,47 @@ function populateConfigurationContainer() {
     });
     configContainer.appendChild(closeButton);
 }
+
+
+// add sitecustomize.py to patch in utf-8 encoding for Python 3.9
+// this is only necessary because translation servers may call print() with certain unicode characters
+// and for some reason every environment variable that should set the encoding to utf-8 does not work
+// also this issue is specific to piped stdio
+const sitecustomizePath = path.join(sugoi_root, "Code", "Power-Source", "Python39", "Lib", "site-packages", "sitecustomize.py");
+const sitecustomizeContent = `###### SUBARASHII_PATCH v1 ######
+# This section is automatically added by Subarashii Frontend to make sure Python 3.9 uses utf-8 encoding for stdio
+try:
+    import sys
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stdin.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
+except:
+    pass
+###### END_SUBARASHII_PATCH ######`;
+if (!fs.existsSync(sitecustomizePath)) {
+    fs.writeFileSync(sitecustomizePath, sitecustomizeContent, "utf8");
+    addConsoleLine("Patch for Python39 utf-8 support successful.", "System", false);
+} else {
+    // if the file already exists, check for any version of the patch
+    let existingContent = fs.readFileSync(sitecustomizePath, "utf8");
+    let needsUpdate = false;
+    if (!existingContent.includes("###### SUBARASHII_PATCH")) {
+        // If the patch is not found at all, append it
+        existingContent += "\n" + sitecustomizeContent;
+        needsUpdate = true;
+    } else {
+        // If the patch is found, check if it needs to be updated
+        const patchStart = existingContent.indexOf("###### SUBARASHII_PATCH");
+        const patchEnd = existingContent.indexOf("###### END_SUBARASHII_PATCH ######") + "###### END_SUBARASHII_PATCH ######".length;
+        const existingPatch = existingContent.substring(patchStart, patchEnd);
+        if (existingPatch !== sitecustomizeContent) {
+            // If the existing patch is different, replace it
+            existingContent = existingContent.replace(existingPatch, sitecustomizeContent);
+            needsUpdate = true;
+        }
+    }
+    if (needsUpdate) {
+        fs.writeFileSync(sitecustomizePath, existingContent, "utf8");
+        addConsoleLine("Patch for Python39 utf-8 support successful.", "System", false);
+    }
+}
