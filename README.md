@@ -9,6 +9,6 @@ Also adds a config menu so you don't have to edit the json manually.
 ![screenshot1](readmeImages/screenshot1.png)
 
 
-To install, download this repository and drag the Code folder into the root folder of Sugoi Toolkit.
+To install, download [the latest release](https://github.com/yuuto-ichika/subarashii-frontend/releases) which corresponds to your version of Sugoi Toolkit and drag the Code folder into the root folder of Sugoi Toolkit.
 
 ![screenshot2](readmeImages/screenshot2.png)
